@@ -1,5 +1,6 @@
-# AOC personal data files
+# AOC personal data files and visualisations
 inputs/
+viz/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
