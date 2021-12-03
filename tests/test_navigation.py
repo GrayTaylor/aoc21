@@ -1,5 +1,5 @@
 import pathmagic  # noqa: E402
-import submarine
+import navigation
 
 
 d2_example_directions = [['forward', 5],
@@ -12,7 +12,7 @@ d2_example_directions = [['forward', 5],
 
 def test_d2s1_example():
 
-    journey = submarine.generate_journey(d2_example_directions, 'd2s1')
+    journey = navigation.generate_journey(d2_example_directions, 'd2s1')
     destination = journey[-1]
 
     assert destination == [15, 10]
@@ -20,7 +20,7 @@ def test_d2s1_example():
 
 def test_d2s2_example():
 
-    journey = submarine.generate_journey(d2_example_directions, 'd2s2')
+    journey = navigation.generate_journey(d2_example_directions, 'd2s2')
     destination = journey[-1]
 
     assert destination == [15, 60]
