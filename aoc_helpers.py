@@ -42,3 +42,36 @@ def least_common_entry(all_strings, strings_of_interest=None):
     counts = distinct_counts(all_strings, strings_of_interest)
     ordered_counts = sorted([(v, k) for k, v in counts.items()])
     return ordered_counts[0][1]
+
+
+def interpolate_line(l):
+    '''
+    Assumes a quadruple of coordinates ordered x_1,y_1,x_2,y2
+    such that the line from point 1 to point 2 is either
+    horizontal, vertical, or a 45 degree diagonal.
+
+    Returns all points on the line, including p1 and p2.
+    '''
+    start_x = l[0]
+    start_y = l[1]
+    end_x = l[2]
+    end_y = l[3]
+
+    if start_x < end_x:
+        x_step = 1
+    elif start_x > end_x:
+        x_step = -1
+    else:
+        x_step = 0
+
+    if start_y < end_y:
+        y_step = 1
+    elif start_y > end_y:
+        y_step = -1
+    else:
+        y_step = 0
+
+    num_steps = max(abs(start_x - end_x), abs(start_y - end_y)) + 1
+
+    return [(start_x + n * x_step, start_y + n * y_step)
+            for n in range(num_steps)]
