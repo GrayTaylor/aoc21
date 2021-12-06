@@ -67,21 +67,18 @@ def interpolate_line(l):
     end_x = l[2]
     end_y = l[3]
 
-    if start_x < end_x:
-        x_step = 1
-    elif start_x > end_x:
-        x_step = -1
-    else:
-        x_step = 0
+    if start_x == end_x:
+        # Special case, vertical line
+        low = min(start_y, end_y)
+        high = max(start_y, end_y)
+        return [(start_x, j) for j in range(low, high + 1)]
 
-    if start_y < end_y:
-        y_step = 1
-    elif start_y > end_y:
-        y_step = -1
-    else:
-        y_step = 0
+    # Otherwise, we can meaningfully talk about gradient
+    m = (end_y - start_y) / (end_x - start_x)
+    c = start_y - m * start_x
 
-    num_steps = max(abs(start_x - end_x), abs(start_y - end_y)) + 1
+    left = min(start_x, end_x)
+    right = max(start_x, end_x)
 
-    return [(start_x + n * x_step, start_y + n * y_step)
-            for n in range(num_steps)]
+    all_points = [(x, m * x + c) for x in range(left, right + 1)]
+    return [(p[0], int(p[1])) for p in all_points if p[1].is_integer()]
