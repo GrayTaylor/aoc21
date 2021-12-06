@@ -13,6 +13,16 @@ def read_file_as_list_of_lists(filename):
     return [r.split(',') for r in read_file_as_list(filename)]
 
 
+def read_file_as_single_line_of_ints(filename):
+    with open(filename, 'r') as f:
+        raw_lines = f.readlines()
+
+    if len(raw_lines) > 1:
+        raise ValueError(f'Got {len(raw_lines)} lines, but expected just one!')
+
+    return [int(x) for x in raw_lines[0].strip('\n').split(',')]
+
+
 def distinct_counts(all_strings, strings_of_interest=None):
     '''
     Counts the number of times each string appears in the list,
