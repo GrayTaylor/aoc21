@@ -1,4 +1,4 @@
-import aoc_helpers as aoc
+import aoc.aoc_helpers as aoch
 
 
 class LanternfishSchool:
@@ -9,7 +9,7 @@ class LanternfishSchool:
 
     def reset(self):
         self.state_counts = {s: 0 for s in self.possible_states}
-        self.initial_state_counts = aoc.distinct_counts(self.initial_states)
+        self.initial_state_counts = aoch.distinct_counts(self.initial_states)
         for state, count in self.initial_state_counts.items():
             self.state_counts[state] = count
         self.num_days = 0

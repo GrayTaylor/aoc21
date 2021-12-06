@@ -1,5 +1,5 @@
 import pathmagic  # noqa: E402
-import diagnostics
+import aoc
 
 
 d3_example_input = ['00100', '11110', '10110', '10111',
@@ -8,16 +8,16 @@ d3_example_input = ['00100', '11110', '10110', '10111',
 
 
 def test_d3s1_gamma():
-    assert diagnostics.rate(d3_example_input, 'gamma') == 22
+    assert aoc.rate(d3_example_input, 'gamma') == 22
 
 
 def test_d3s1_epsilon():
-    assert diagnostics.rate(d3_example_input, 'epsilon') == 9
+    assert aoc.rate(d3_example_input, 'epsilon') == 9
 
 
 def test_d3s2_oxygen():
-    assert diagnostics.rating(d3_example_input, 'oxygen_generator') == 23
+    assert aoc.rating(d3_example_input, 'oxygen_generator') == 23
 
 
 def test_d3s2_co2():
-    assert diagnostics.rating(d3_example_input, 'co2_scrubber') == 10
+    assert aoc.rating(d3_example_input, 'co2_scrubber') == 10

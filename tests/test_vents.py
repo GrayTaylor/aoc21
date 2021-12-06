@@ -1,5 +1,5 @@
 import pathmagic  # noqa: E402
-import vents
+import aoc
 
 
 d5_example_string = r'''0,9 -> 5,9
@@ -13,16 +13,16 @@ d5_example_string = r'''0,9 -> 5,9
 0,0 -> 8,8
 5,5 -> 8,2'''
 
-d5_example_lines = vents.process_vent_lines_string(d5_example_string)
+d5_example_lines = aoc.process_vent_lines_string(d5_example_string)
 
 
 def test_d5s1():
-    danger_points = vents.count_danger_points(d5_example_lines,
-                                              include_diag=False)
+    danger_points = aoc.count_danger_points(d5_example_lines,
+                                            include_diag=False)
     assert danger_points == 5
 
 
 def test_d5s2():
-    danger_points = vents.count_danger_points(d5_example_lines,
-                                              include_diag=True)
+    danger_points = aoc.count_danger_points(d5_example_lines,
+                                            include_diag=True)
     assert danger_points == 12

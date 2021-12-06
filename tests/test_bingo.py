@@ -1,5 +1,5 @@
 import pathmagic  # noqa: E402
-import bingo
+import aoc
 
 
 d4_example_calls = [7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21, 24, 10, 16,
@@ -25,15 +25,15 @@ example_board3 = [[14, 21, 17, 24,  4],
                   [2,  0, 12,  3,  7]]
 
 example_inputs = [example_board1, example_board2, example_board3]
-example_bingo_boards = [bingo.bingo_board(e) for e in example_inputs]
+example_bingo_boards = [aoc.bingo_board(e) for e in example_inputs]
 
 
 def test_d4s1_example():
-    score = bingo.score_winning_board(d4_example_calls, example_bingo_boards)
+    score = aoc.score_winning_board(d4_example_calls, example_bingo_boards)
     assert score == 4512
 
 
 def test_d4s2_example():
-    score = bingo.score_last_winning_board(d4_example_calls,
-                                           example_bingo_boards)
+    score = aoc.score_last_winning_board(d4_example_calls,
+                                         example_bingo_boards)
     assert score == 1924

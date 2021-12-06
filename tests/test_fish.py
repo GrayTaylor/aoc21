@@ -1,8 +1,8 @@
 import pathmagic  # noqa: E402
-import fish
+import aoc
 
 d6_example_counts = [3, 4, 3, 1, 2]
-example_school = fish.LanternfishSchool(d6_example_counts)
+example_school = aoc.LanternfishSchool(d6_example_counts)
 
 
 def test_d6s1():

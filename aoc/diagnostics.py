@@ -1,4 +1,4 @@
-import aoc_helpers as aoc
+import aoc.aoc_helpers as aoch
 
 
 def rate(list_of_bit_strings, rate):
@@ -6,10 +6,10 @@ def rate(list_of_bit_strings, rate):
     num_bits = len(list_of_bit_strings[0])
 
     if rate == 'gamma':
-        bits = [aoc.most_common_entry([s[k] for s in list_of_bit_strings])
+        bits = [aoch.most_common_entry([s[k] for s in list_of_bit_strings])
                 for k in range(num_bits)]
     elif rate == 'epsilon':
-        bits = [aoc.least_common_entry([s[k] for s in list_of_bit_strings])
+        bits = [aoch.least_common_entry([s[k] for s in list_of_bit_strings])
                 for k in range(num_bits)]
     else:
         bits = ['0']
@@ -26,9 +26,9 @@ def rating(list_of_bit_strings, rating, verbose=False):
 
     while len(candidates) > 1:
         if rating == 'co2_scrubber':
-            desired_bit = aoc.least_common_entry([c[0] for c in candidates])
+            desired_bit = aoch.least_common_entry([c[0] for c in candidates])
         else:
-            desired_bit = aoc.most_common_entry([c[0] for c in candidates])
+            desired_bit = aoch.most_common_entry([c[0] for c in candidates])
 
         candidates = [c[1:] for c in candidates if c[0] == desired_bit]
         found_bits += desired_bit

@@ -1,5 +1,5 @@
 import re
-import aoc_helpers as aoc
+import aoc.aoc_helpers as aoch
 
 
 def process_vent_lines_string(s):
@@ -21,7 +21,7 @@ def count_danger_points(lines, include_diag=True):
 
     used_points = {}
     for l in valid_lines:
-        points_on_l = aoc.interpolate_line(l)
+        points_on_l = aoch.interpolate_line(l)
         for point in points_on_l:
             if point in used_points:
                 used_points[point] += 1
