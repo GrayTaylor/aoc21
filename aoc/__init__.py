@@ -4,3 +4,4 @@ from .diagnostics import *
 from .fish import *
 from .navigation import *
 from .vents import *
+from .crab import *
