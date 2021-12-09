@@ -1,3 +1,6 @@
+import itertools
+
+
 def read_file_as_string(filename):
     with open(filename, 'r') as f:
         return f.read().strip('\n')
@@ -82,3 +85,39 @@ def interpolate_line(l):
 
     all_points = [(x, m * x + c) for x in range(left, right + 1)]
     return [(p[0], int(p[1])) for p in all_points if p[1].is_integer()]
+
+
+class ValueGrid:
+    def __init__(self, values):
+        self.num_rows = len(values)
+        self.num_cols = len(values[0])
+        for row in values:
+            if len(row) != self.num_cols:
+                raise ValueError('Rows of different lengths')
+        self.values = {(p[0], p[1]): values[p[0]][p[1]]
+                       for p in itertools.product(range(self.num_rows),
+                                                  range(self.num_cols))}
+
+    def value_at_point(self, p):
+        return self.values[p]
+
+    def neighbours_of_point(self, p):
+        i = p[0]
+        j = p[1]
+        possible_neighbours = [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]
+        return set(n for n in possible_neighbours if n in self.values)
+
+    def periphery(self, points):
+        periphery = set()
+        for p in points:
+            neighbours = self.neighbours_of_point(p)
+            for n in neighbours:
+                if n not in points and n not in periphery:
+                    periphery.add(n)
+        return [p for p in periphery]
+
+    def points(self):
+        return set(p for p in self.values)
+
+    def __repr__(self):
+        return f'{self.num_rows} by {self.num_cols} grid of values'
