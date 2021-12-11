@@ -88,7 +88,9 @@ def interpolate_line(l):
 
 
 class ValueGrid:
-    def __init__(self, values):
+    def __init__(self, values, neighbour_pattern='ordinal'):
+        assert neighbour_pattern in ('ordinal', 'ring')
+        self.neighbour_pattern = neighbour_pattern
         self.num_rows = len(values)
         self.num_cols = len(values[0])
         for row in values:
@@ -97,14 +99,29 @@ class ValueGrid:
         self.values = {(p[0], p[1]): values[p[0]][p[1]]
                        for p in itertools.product(range(self.num_rows),
                                                   range(self.num_cols))}
+        self.input_values = {(p[0], p[1]): values[p[0]][p[1]]
+                             for p in itertools.product(range(self.num_rows),
+                                                        range(self.num_cols))}
 
     def value_at_point(self, p):
         return self.values[p]
+
+    def set_value_at_point(self, p, value):
+        self.values[p] = value
+
+    def increment_value_at_point(self, p):
+        self.values[p] += 1
 
     def neighbours_of_point(self, p):
         i = p[0]
         j = p[1]
         possible_neighbours = [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]
+
+        if self.neighbour_pattern == 'ring':
+            possible_diag_neighbours = [(i - 1, j - 1), (i - 1, j + 1),
+                                        (i + 1, j - 1), (i + 1, j + 1)]
+            possible_neighbours.extend(possible_diag_neighbours)
+
         return set(n for n in possible_neighbours if n in self.values)
 
     def periphery(self, points):
@@ -121,3 +138,10 @@ class ValueGrid:
 
     def __repr__(self):
         return f'{self.num_rows} by {self.num_cols} grid of values'
+
+    def view_grid(self):
+        for r in range(self.num_rows):
+            print([self.value_at_point((r, c)) for c in range(self.num_cols)])
+
+    def reset(self):
+        self.values = {k: v for k, v in self.input_values.items()}
