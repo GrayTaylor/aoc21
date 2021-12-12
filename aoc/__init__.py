@@ -7,3 +7,4 @@ from .vents import *
 from .crab import *
 from .seven_segment import *
 from .lavatubes import *
+from .autocomplete import *

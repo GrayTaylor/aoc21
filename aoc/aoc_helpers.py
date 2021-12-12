@@ -145,3 +145,7 @@ class ValueGrid:
 
     def reset(self):
         self.values = {k: v for k, v in self.input_values.items()}
+
+
+def int_array_from_strings(input_strings):
+    return [[int(x) for x in s] for s in input_strings]
