@@ -8,3 +8,4 @@ from .crab import *
 from .seven_segment import *
 from .lavatubes import *
 from .autocomplete import *
+from .dumbo import *
