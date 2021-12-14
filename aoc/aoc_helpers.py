@@ -149,3 +149,7 @@ class ValueGrid:
 
 def int_array_from_strings(input_strings):
     return [[int(x) for x in s] for s in input_strings]
+
+
+def add_dicts(x, y):
+    return {k: x.get(k, 0) + y.get(k, 0) for k in set(x) | set(y)}

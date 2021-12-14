@@ -10,3 +10,4 @@ from .lavatubes import *
 from .autocomplete import *
 from .dumbo import *
 from .caves import *
+from .polymers import *
