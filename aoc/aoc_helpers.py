@@ -1,4 +1,6 @@
 import itertools
+import networkx as nx
+from math import floor
 
 
 def read_file_as_string(filename):
@@ -153,3 +155,86 @@ def int_array_from_strings(input_strings):
 
 def add_dicts(x, y):
     return {k: x.get(k, 0) + y.get(k, 0) for k in set(x) | set(y)}
+
+
+class ValueGridGraph:
+    def __init__(self, value_grid):
+        self.value_grid = value_grid
+
+        self.G = nx.Graph()
+
+        for p in value_grid.points():
+            self.G.add_node(p, weight=int(value_grid.value_at_point(p)))
+
+        for p in value_grid.points():
+            for n in value_grid.neighbours_of_point(p):
+                self.G.add_edge(p, n)
+
+    def weigh_edge(self, u, v, d):
+        node_u_wt = self.G.nodes[u].get("weight", 1)
+        node_v_wt = self.G.nodes[v].get("weight", 1)
+        edge_wt = d.get("weight", 1)
+        return node_v_wt
+
+    def lowest_weight_path(self, start_point, end_point):
+        return nx.dijkstra_path(self.G, start_point, end_point,
+                                weight=self.weigh_edge)
+
+    def weigh_start_to_end(self):
+        start_point = (0, 0)
+        end_point = (self.value_grid.num_rows - 1,
+                     self.value_grid.num_cols - 1)
+        path = self.lowest_weight_path(start_point, end_point)
+        path_weight = sum([int(self.value_grid.value_at_point(p))
+                           for p in path])
+        return path_weight - int(self.value_grid.value_at_point(start_point))
+
+
+class RepeatedValueGridGraph:
+    def __init__(self, value_grid, num_repeats):
+        self.small_grid = value_grid
+        tile_size = value_grid.num_cols  # Assuming square
+
+        all_labels = [''.join(['1' for c in range(num_repeats * tile_size)])
+                      for r in range(num_repeats * tile_size)]
+        holding_grid = ValueGrid(all_labels)
+
+        self.G = nx.Graph()
+
+        for p in holding_grid.points():
+            # Locate
+            sub_x = p[0] % tile_size
+            sub_y = p[1] % tile_size
+            steps_x = floor(p[0] / tile_size)
+            steps_y = floor(p[1] / tile_size)
+
+            # Looped value
+            value_at_p = int(value_grid.value_at_point((sub_x, sub_y)))
+            for k in range(steps_x + steps_y):
+                value_at_p += 1
+                if value_at_p == 10:
+                    value_at_p = 1
+            self.G.add_node(p, weight=value_at_p)
+
+        for p in holding_grid.points():
+            for n in holding_grid.neighbours_of_point(p):
+                self.G.add_edge(p, n)
+
+        self.grid_size = tile_size * num_repeats
+
+    def weigh_edge(self, u, v, d):
+        node_u_wt = self.G.nodes[u].get("weight", 1)
+        node_v_wt = self.G.nodes[v].get("weight", 1)
+        edge_wt = d.get("weight", 1)
+        return node_v_wt
+
+    def lowest_weight_path(self, start_point, end_point):
+        return nx.dijkstra_path(self.G, start_point, end_point,
+                                weight=self.weigh_edge)
+
+    def weigh_start_to_end(self):
+        start_point = (0, 0)
+        end_point = (self.grid_size - 1, self.grid_size - 1)
+        path = self.lowest_weight_path(start_point, end_point)
+        path_weight = sum([self.G.nodes[p].get("weight") for p in path])
+        return path_weight - int(self.G.nodes[start_point].get("weight"))
