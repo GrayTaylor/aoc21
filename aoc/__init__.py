@@ -12,3 +12,4 @@ from .dumbo import *
 from .caves import *
 from .polymers import *
 from .origami import *
+from .bits import *
